@@ -1,15 +1,18 @@
 require 'pry'
 
-# TODO if user enters anything other than acceptable inputs, repeat the questions
 
 player_picked = ""
 comp_picked = ""
 play_again_bool = TRUE
+corr_input_bool = FALSE
+int = 0
 
-# Method: prints out text, returns user input
+# Prints out text, returns user input
 def get_input message
-  puts message
-  input = gets.chomp.downcase
+
+    puts message
+    input = gets.chomp.downcase
+
 end
 
 def puts message
@@ -31,8 +34,7 @@ def determine_what_comp_picks
 
 end
 
-# Method: returns what user picked.
-
+# Returns what user picked.
 def record_users_choice input
 
   if input == "p"
@@ -46,7 +48,7 @@ end
 
 # Prints what user and computer picked.
 def print_what_each_player_picked player_picked, comp_picked
-  puts " You picked #{player_picked} and Computer picked #{comp_picked}"
+  puts "You picked #{player_picked} and Computer picked #{comp_picked}"
 end
 
 # Prints results
@@ -78,9 +80,34 @@ end
 def ask_play_again?()
   input = get_input "Play again?"
   if input == "y"
-    TRUE
+    1
+  elsif input == "n"
+    2
   else
-    FALSE
+    3
+  end
+end
+
+# Returns boolean.
+def corr_input?(input)
+  return input
+end
+
+# Did user enter enter P R S? Returns boolean.
+def corr_input_PRS?(input)
+  if input == "p" || input == "r" || input == "s"
+    return TRUE
+  else
+    return FALSE
+  end
+end
+
+# Did user enter anything other than y or n? Return boolean AND return int
+def corr_input_play_again?(input)
+  if input == 3
+    return FALSE, input
+  else
+    return TRUE, input
   end
 end
 
@@ -90,10 +117,43 @@ puts "Play Paper Rock Scissors!"    # Welcome message, occurs once.
 # Until the user quits, continuing playing.
 
 while play_again_bool == TRUE
-  input = get_input("Choose one: (P/R/S)")
-  player_picked = record_users_choice(input)
+  #binding.pry
+  while corr_input_bool == FALSE
+    #binding.pry
+    input = get_input("Choose one: (P/R/S)")
+    # XXX
+    corr_input_bool = corr_input_PRS?(input)
+    player_picked = record_users_choice(input)
+  end
+
+  corr_input_bool = FALSE
+
   comp_picked = determine_what_comp_picks()
   print_what_each_player_picked(player_picked, comp_picked)
   print_which_player_wins(player_picked, comp_picked)
-  play_again_bool = ask_play_again?()
+
+  while corr_input_bool == FALSE
+    #binding.pry
+    input = ask_play_again?()
+    #binding.pry
+    corr_input_bool, int = corr_input_play_again?(input)
+    #binding.pry
+  end
+
+  #binding.pry
+
+  corr_input_bool == FALSE
+
+  # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
+  #binding.pry
+
+  if int == 1
+    #binding.pry
+    play_again_bool = TRUE
+  elsif int == 2
+    play_again_bool = FALSE
+  end
+
+  corr_input_bool = FALSE
+
 end
