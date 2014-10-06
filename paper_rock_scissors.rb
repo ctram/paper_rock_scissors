@@ -1,5 +1,3 @@
-require 'pry'
-
 
 player_picked = ""
 comp_picked = ""
@@ -7,7 +5,7 @@ play_again_bool = TRUE
 corr_input_bool = FALSE
 int = 0
 
-# Prints out text, returns user input
+# Prints out text, returns user input, like Python's input() function
 def get_input message
 
     puts message
@@ -15,6 +13,7 @@ def get_input message
 
 end
 
+# Format comp messages to start with >>
 def puts message
   print ">> " + message +"\n"
 end
@@ -34,7 +33,7 @@ def determine_what_comp_picks
 
 end
 
-# Returns what user picked.
+# Records what user picked, also returns what user picked.
 def record_users_choice input
 
   if input == "p"
@@ -51,7 +50,7 @@ def print_what_each_player_picked player_picked, comp_picked
   puts "You picked #{player_picked} and Computer picked #{comp_picked}"
 end
 
-# Prints results
+# Prints results of game
 def print_which_player_wins player_picked, comp_picked
   if player_picked == comp_picked
     puts "It's a tie!"
@@ -88,12 +87,7 @@ def ask_play_again?()
   end
 end
 
-# Returns boolean.
-def corr_input?(input)
-  return input
-end
-
-# Did user enter enter P R S? Returns boolean.
+# Did user enter letters P R or S? Returns boolean.
 def corr_input_PRS?(input)
   if input == "p" || input == "r" || input == "s"
     return TRUE
@@ -102,7 +96,7 @@ def corr_input_PRS?(input)
   end
 end
 
-# Did user enter anything other than y or n? Return boolean AND return int
+# Did user enter anything other than y or n? Return boolean AND return integer
 def corr_input_play_again?(input)
   if input == 3
     return FALSE, input
@@ -116,10 +110,11 @@ puts "Play Paper Rock Scissors!"    # Welcome message, occurs once.
 
 # Until the user quits, continuing playing.
 
+# Loop until user wants to quit.
 while play_again_bool == TRUE
 
+  # Loop until user enters an acceptable input.
   while corr_input_bool == FALSE
-
     input = get_input("Choose one: (P/R/S)")
     corr_input_bool = corr_input_PRS?(input)
     player_picked = record_users_choice(input)
@@ -131,18 +126,15 @@ while play_again_bool == TRUE
   print_what_each_player_picked(player_picked, comp_picked)
   print_which_player_wins(player_picked, comp_picked)
 
+  # Loop until user enters an acceptable input.
   while corr_input_bool == FALSE
-
     input = ask_play_again?()
-
     corr_input_bool, int = corr_input_play_again?(input)
-
   end
 
   corr_input_bool == FALSE
 
   if int == 1
-
     play_again_bool = TRUE
   elsif int == 2
     play_again_bool = FALSE
