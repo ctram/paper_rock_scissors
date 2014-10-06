@@ -19,7 +19,7 @@ def puts message
   print ">> " + message +"\n"
 end
 
-# Method : computer randomly chooses item, returns chosen item
+# Computer randomly chooses item, returns chosen item
 def determine_what_comp_picks
   random = [1,2,3].shuffle
   choice = random[0]
@@ -117,11 +117,10 @@ puts "Play Paper Rock Scissors!"    # Welcome message, occurs once.
 # Until the user quits, continuing playing.
 
 while play_again_bool == TRUE
-  #binding.pry
+
   while corr_input_bool == FALSE
-    #binding.pry
+
     input = get_input("Choose one: (P/R/S)")
-    # XXX
     corr_input_bool = corr_input_PRS?(input)
     player_picked = record_users_choice(input)
   end
@@ -133,22 +132,17 @@ while play_again_bool == TRUE
   print_which_player_wins(player_picked, comp_picked)
 
   while corr_input_bool == FALSE
-    #binding.pry
-    input = ask_play_again?()
-    #binding.pry
-    corr_input_bool, int = corr_input_play_again?(input)
-    #binding.pry
-  end
 
-  #binding.pry
+    input = ask_play_again?()
+
+    corr_input_bool, int = corr_input_play_again?(input)
+
+  end
 
   corr_input_bool == FALSE
 
-  # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
-  #binding.pry
-
   if int == 1
-    #binding.pry
+
     play_again_bool = TRUE
   elsif int == 2
     play_again_bool = FALSE
