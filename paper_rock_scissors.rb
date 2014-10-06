@@ -4,15 +4,19 @@ require 'pry'
 
 player_picked = ""
 comp_picked = ""
-play_again = TRUE
+play_again_bool = TRUE
 
-# Method that puts a message to CL and gets user's input, setting it to variable "input"
-def input message
-  puts ">> " + message
+# Method: prints out text, returns user input
+def get_input message
+  puts message
   input = gets.chomp.downcase
 end
 
-# Method that returns which item computer picks.
+def puts message
+  print ">> " + message +"\n"
+end
+
+# Method : computer randomly chooses item, returns chosen item
 def determine_what_comp_picks
   random = [1,2,3].shuffle
   choice = random[0]
@@ -27,10 +31,12 @@ def determine_what_comp_picks
 
 end
 
-# Record what item user picks.
+# Method: returns what user picked.
+
 def record_users_choice input
+
   if input == "p"
-    player_picked = "Paper"
+  player_picked = "Paper"
   elsif input == "r"
     player_picked = "Rock"
   elsif input == "s"
@@ -38,12 +44,13 @@ def record_users_choice input
   end
 end
 
-
+# Prints what user and computer picked.
 def print_what_each_player_picked player_picked, comp_picked
-  puts "You picked #{player_picked} and Computer picked #{comp_picked}"
+  puts " You picked #{player_picked} and Computer picked #{comp_picked}"
 end
 
-def print_which_item_wins player_picked, comp_picked
+# Prints results
+def print_which_player_wins player_picked, comp_picked
   if player_picked == comp_picked
     puts "It's a tie!"
   elsif player_picked == "Paper"
@@ -67,15 +74,26 @@ def print_which_item_wins player_picked, comp_picked
   end
 end
 
-
+# Checks whether player wants to continue, returns boolean.
+def ask_play_again?()
+  input = get_input "Play again?"
+  if input == "y"
+    TRUE
+  else
+    FALSE
+  end
+end
 
 ############# Start of program ###################################################
-puts "Play Paper Rock Scissors!"
+puts "Play Paper Rock Scissors!"    # Welcome message, occurs once.
 
-while play_again == TRUE
+# Until the user quits, continuing playing.
 
-
-
-
-  play_again == FALSE
+while play_again_bool == TRUE
+  input = get_input("Choose one: (P/R/S)")
+  player_picked = record_users_choice(input)
+  comp_picked = determine_what_comp_picks()
+  print_what_each_player_picked(player_picked, comp_picked)
+  print_which_player_wins(player_picked, comp_picked)
+  play_again_bool = ask_play_again?()
 end
